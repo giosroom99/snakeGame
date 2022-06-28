@@ -1,5 +1,5 @@
 /*
-    Name : Giovanni Tshibangu & Dejah Murray 
+    Developed by : Giovanni Tshibangu & Dejah Murray 
     BB Team : 1
     Project name: Snake Part1
     Date: 6/28/2022
