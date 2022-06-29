@@ -51,7 +51,11 @@ void buildScreen();     // Build the pit and overall Gameplay Area
 void gameOverMessageScreen();  // This function is called when you kill the snake.
 
 // ################ MAIN FUNCTION #################
-
+/*
+ Function : guideSnake()
+ Name: Dejah Murray
+ Functionality: Driver function
+*/
 int main(void){
     buildGame();        // Start by building the game first.
 
@@ -118,7 +122,7 @@ void buildGame(){
 // ################ updateDirection FUNCTION #################
 /*
  Function : updateDirection()
- Name: 
+ Name: Dejah Murray
  functionality  : This function takes in the user key inputs to update the snake position 
 */
 void updateDirection(int keypress){
@@ -168,7 +172,7 @@ void updateDirection(int keypress){
 // ################ guideSnake FUNCTION #################
 /*
  Function : guideSnake()
- Name: Giovanni Tshibangu
+ Name: Dejah Murray
  functionality  : More snake control, such as head movement and collision hanlder 
 */
 void guideSnake(){
