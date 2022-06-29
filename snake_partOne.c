@@ -1,19 +1,19 @@
 /*
-    Developed by : Giovanni Tshibangu & Dejah Murray 
-    BB Team : 1
-    Project name: Snake Part1
+    Developed by: Giovanni Tshibangu & Dejah Murray 
+    BB Team: 1
+    Project name: Snake Part 1
     Date: 6/28/2022
 
-Part objective:
+    Part 1 Objective:
     Intermediate deliverable (due 06/30/2022) needs to have the following functionality:
-    * The game starts with the snake of size 5 moving right;
-    * Snake movement can be controlled in all directions;
-    * Snake does not grow;
-    * Snake pit border is visible;
-    No trophies.
-
+    * The game starts with the snake of size 5 moving right
+    * Snake movement can be controlled in all directions
+    * Snake does not grow
+    * Snake pit border is visible
+    * No trophies
 */
-// Libraies needed for this project
+
+// Libraries needed for this project
 #include <curses.h> 
 #include <ncurses.h>
 #include <stdlib.h>
@@ -43,37 +43,41 @@ bool gameOver = false, exitGame = false;
 enum Direction currDir;
 struct Snake *head;
 
-// Declaring all my function Prototypes 
-void buildGame();       // This function set the game and init snake position ect...
-void updateDirection(int);      // Change the snake position based on the user input.
-void guideSnake();      // More snake control, such as head movement and collision hanlder
-void buildScreen();     // Build the pit and overall Gameplay Area
-void gameOverMessageScreen();  // This function is called when you kill the snake.
+// Declaring all function prototypes 
+void buildGame();                // This function sets the game and initial snake position ect...
+void updateDirection(int);       // Change the snake position based on user input.
+void guideSnake();               // More snake control, such as head movement and collision handler
+void buildScreen();              // Build the pit and overall gameplay area
+void gameOverMessageScreen();    // This function is called when you kill the snake
 
-// ################ MAIN FUNCTION #################
+
+// #### Main Function #####
+
 /*
- Function : guideSnake()
+ Function : main()
  Name: Dejah Murray
  Functionality: Driver function
 */
-int main(void){
-    buildGame();        // Start by building the game first.
 
+int main(){
+    buildGame();       // builds the game and sets the snake's intial position in the pit
+
+    // loop repeats until user presses 'x' or 'X', which will set gameOver = 1
     while(!exitGame){
         if(gameOver){
-            gameOverMessageScreen("YOU LOSE !!!!!... \n");
+            gameOverMessageScreen("YOU LOSE!\n");  // game over message
         }
         int keypress = getch();
         updateDirection(keypress);
         guideSnake();
         buildScreen();
-  
-	    usleep(speed);      // add delay between movement, speed is proportional to its length.
-                            // The longer the snake, the faster it goes 
+	    usleep(speed);      // pause between snake movement. The speed is proportional to its length.
+                            // the longer the snake, the faster it goes
     }
-    endwin();    // end the curses
+    endwin();    // turn off curses
     return 0;   
 }
+
 // ################ buildGame FUNCTION #################
 /*
  Function : buildGame()
@@ -119,18 +123,23 @@ void buildGame(){
     }
 }
 
-// ################ updateDirection FUNCTION #################
+// ##### updateDirection function #####
 /*
  Function : updateDirection()
  Name: Dejah Murray
- functionality  : This function takes in the user key inputs to update the snake position 
+ Functionality: This function takes in the user's key presses as input and updates the direction of the snake accordingly.
 */
+
 void updateDirection(int keypress){
-    // Switch case based on the keypressed by the user..
+    /*  
+        Switch case to change the direction of the snake based on the user's key presses
+        The game will be over if the snake is moving in one direction and the user tries to make the snake move in the opposite direction.
+        ie. Snake moving DOWN and the user presses the UP arrow
+    */
+
     switch (keypress) {     
         case KEY_UP:    
-            if(currDir ==DOWN){
-                // reverse
+            if(currDir == DOWN){
                 gameOverMessageScreen("You lose! Snakes do not go BACKWARDS...\n");
                 break;
             }
@@ -152,70 +161,82 @@ void updateDirection(int keypress){
                     gameOverMessageScreen("You lose! Snakes do not go BACKWARDS...\n");
                     break;
             }
-            currDir =LEFT;
+            currDir = LEFT;
             break;
         
         case KEY_RIGHT:
-            if(currDir ==LEFT){
+            if(currDir == LEFT){
                  // reverse
                     gameOverMessageScreen("You lose! Snakes do not go BACKWARDS...\n");
                     break;
             }
             currDir = RIGHT;
             break;
-            // ENd the game if X or x  key is pressed.
+            // If the user presses 'x' or 'X' the game will be over
             case 'x':
             case 'X':
-                exitGame = true;
+                exitGame = 1;
     }
 }
-// ################ guideSnake FUNCTION #################
+
+
+// ### guideSnake function ###
+
 /*
  Function : guideSnake()
  Name: Dejah Murray
- functionality  : More snake control, such as head movement and collision hanlder 
+ Functionality: Allows the user to control the direction of the snake and handles 
+ collision events ie. snake runs into the border, runs into itself, user tries to reverse snake direction.
 */
+
 void guideSnake(){
-     // new snake head
+
+     // Creates a new head for the snake
      struct Snake *newHead;
      newHead = (struct Snake*) malloc(sizeof(struct Snake));
      newHead->next = head;
      newHead->x = head->x;
      newHead->y = head->y;
-     head = newHead;   // Set head to newHead
+     head = newHead; 
 
-    // Snake head movement 
-     if(currDir == UP)  head->y--;
-     else if(currDir == DOWN)  head->y++;
-     else if(currDir == LEFT)  head->x--;
+    // The movement of the snake's head changes based on the user's key presses.
+    // The position of the snake is changed by updating its coordinates within the snake pit
+     if(currDir == UP) {
+        head->y--; 
+     } 
+     else if(currDir == DOWN) {
+        head->y++; 
+     } 
+     else if(currDir == LEFT) {
+        head->x--;
+     }  
      else if(currDir == RIGHT) head->x++;
 
-    // End the game if the snake hit the walls
         
+    // Ends the game if the snake hits the border/wall of the snake pit
     if (head->x >= WIDTH || head->x <= 0 || head->y >= HEIGHT || head->y <= 0) {
-        /* gamover, this will end the game. 
-        The while loop checking for it will break out of the loop once value is eqaul to 1*/
-        gameOver = true;    
-        gameOverMessageScreen("Game over!  You hit a wall... Try not to next time. \n");
+        gameOver = 1;   // ends the game
+        gameOverMessageScreen("You hit the wall loser! \n");
     }
-    // Game ends when the snake hit itself
+
+    // Ends the game if the snake hits itself
     struct Snake *currBody;
     currBody = head;
+
+    // loop will keep going unless 
     while (currBody->next->next != NULL) {
-        // if collide with body, gameover
+        // if the snake's head collides with a part of its body, end the game
         if (currBody->next->x == head->x && currBody->next->y == head->y) {
-            /* gamover, this will end the game. 
-            The while loop checking for it will break out of the loop once value is eqaul to 1*/
-            gameOver = true;
-            gameOverMessageScreen("You lose! Stop Trying to eat Yourself!!!...\n");
+            gameOver = 1;    // ends the game
+            gameOverMessageScreen("You lose! Stop trying to eat yourself :( \n");
         }
         currBody = currBody->next;
     }
 
-    // if there is no new body left to add, remove tail
+    // if there is no new body left to add, remove the tail
     if (numNewBodies <= 0) {
-        mvaddch(currBody->next->y, currBody->next->x, ' '); // clear that body from screen
-        free(currBody->next);
+        mvaddch(currBody->next->y, currBody->next->x, ' '); // remove that part of the snake from the screen
+        free(currBody->next);   // frees memory
         currBody->next = NULL;
     }
     else {
