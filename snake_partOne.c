@@ -62,7 +62,7 @@ void gameOverMessageScreen();    // This function is called when you kill the sn
 int main(){
     buildGame();       // builds the game and sets the snake's intial position in the pit
 
-    // loop repeats until user presses 'x' or 'X', which will set gameOver = 1
+    // loop repeats until user presses 'x' or 'X', which will set gameOver = true
     while(!exitGame){
         if(gameOver){
             gameOverMessageScreen("YOU LOSE!\n");  // game over message
@@ -175,7 +175,7 @@ void updateDirection(int keypress){
             // If the user presses 'x' or 'X' the game will be over
             case 'x':
             case 'X':
-                exitGame = 1;
+                exitGame = true;
     }
 }
 
@@ -215,7 +215,7 @@ void guideSnake(){
         
     // Ends the game if the snake hits the border/wall of the snake pit
     if (head->x >= WIDTH || head->x <= 0 || head->y >= HEIGHT || head->y <= 0) {
-        gameOver = 1;   // ends the game
+        gameOver = true;   // ends the game
         gameOverMessageScreen("You hit the wall loser! \n");
     }
 
@@ -227,7 +227,7 @@ void guideSnake(){
     while (currBody->next->next != NULL) {
         // if the snake's head collides with a part of its body, end the game
         if (currBody->next->x == head->x && currBody->next->y == head->y) {
-            gameOver = 1;    // ends the game
+            gameOver = true;    // ends the game
             gameOverMessageScreen("You lose! Stop trying to eat yourself :( \n");
         }
         currBody = currBody->next;
