@@ -1,6 +1,6 @@
 # snakeGame
 
-[Link to SnakeGame Assignment ](https://pages.github.com/](https://cs.ccsu.edu/~stan/classes/CS355/Project-SU22.html)).
+[Link to SnakeGame Assignment ](https://cs.ccsu.edu/~stan/classes/CS355/Project-SU22.html).
 
     Developers : Giovanni Tshibangu & Dejah Murray 
     BB Team : 1
