@@ -24,7 +24,7 @@
 #define WIDTH 70
 #define HEIGHT 30
 #define SPEED 300000
-#define LENGTH 5 
+#define LENGTH 3 
 
 
 // Enum directions. Use the arrow keys from keyboard to guide the snake
